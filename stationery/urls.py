@@ -8,4 +8,6 @@ urlpatterns = [
     path("Registration/", views.Registration, name="Registration"),
     path("Department/", views.Department, name="Department"),
     path("Total/", views.Total, name="Total"),
+    path("Register/", views.Register, name="Register"),
+    path("ForgotPassword/", views.ForgotPassword, name="ForgotPassword"),
 ]
