@@ -49,10 +49,10 @@ class MyUser(AbstractBaseUser):
 
     objects = MyUserManager()
 
-    room_id = models.ForeignKey('Room', on_delete=models.PROTECT)
+    room_id = models.ForeignKey('Room', on_delete=models.PROTECT, null=True)
     
     ROLES = [(0, 'Admin'),(1, 'Manager'),(2, 'Staff')]
-    role = models.SmallIntegerField(choices=ROLES)
+    role = models.SmallIntegerField(choices=ROLES, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
