@@ -41,3 +41,9 @@ def Department(request):
 @login_required
 def Total(request):
     return render(request, "Manager/Total.html")
+
+def Register(request):
+    return render(request, "layouts/register.html")
+
+def ForgotPassword(request):
+    return render(request, "layouts/forgot-password.html")
