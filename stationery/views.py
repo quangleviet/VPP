@@ -29,3 +29,15 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect("/")
+
+@login_required
+def Registration(request):
+    return render(request, "Registration/Registration.html")
+
+@login_required
+def Department(request):
+    return render(request, "Manager/Department.html")
+
+@login_required
+def Total(request):
+    return render(request, "Manager/Total.html")
