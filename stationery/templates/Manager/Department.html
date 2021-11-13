@@ -1,0 +1,39 @@
+{% extends "dashboard/index.html" %}
+
+    {% block content_dashboard %}
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Phong Ban</th>
+                        <th>Quy</th>
+                        <th>Noi Dung</th>
+                        <th>Thao tac</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Phong Ban</th>
+                        <th>Quy</th>
+                        <th>Noi Dung</th>
+                        <th>Thao Tac</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Phong Cong Nghe</td>
+                        <td>Quy 1</td>
+                        <td>Dang Ky</td>
+                        <td></td>
+                    </tr>
+                 </tbody>
+            </table>
+        </div>
+    </div>
+    
+    {% endblock %}

@@ -27,7 +27,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'login' %}">
+                <a class="nav-link collapsed" href="{% url 'Registration' %}">
                     <i class="fas fa-edit"></i>
                     <span>Registration management</span>
                 </a>
@@ -45,8 +45,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Category:</h6>
-                        <a class="collapse-item" href="utilities-color.html"><i class="fab fa-buffer" style="margin-right: 10px"></i>Total amount</a>
-                        <a class="collapse-item" href="utilities-border.html"><i class="fas fa-home" style="margin-right: 10px"></i>Department</a>
+                        <a class="collapse-item" href="{% url 'Total' %}"><i class="fab fa-buffer" style="margin-right: 10px"></i>Total amount</a>
+                        <a class="collapse-item" href="{% url 'Department' %}"><i class="fas fa-home" style="margin-right: 10px"></i>Department</a>
 
                     </div>
                 </div>
