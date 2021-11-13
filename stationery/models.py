@@ -7,7 +7,7 @@ class Room(models.Model):
     name = models.CharField(max_length=60)
     code = models.CharField(max_length=10)
 
-class Registration(models.Model):
+class Registrations(models.Model):
     room = models.ForeignKey('Room', on_delete=models.PROTECT, null=True)
 
     QUARTER = [(1, 'Quy 1'),(2, 'Quy 2'),(3, 'Quy 3'), (4, 'Quy 4')]
@@ -15,6 +15,7 @@ class Registration(models.Model):
 
     STATUS = [(1, 'New'),(2, 'Approved'),(3, 'Rejected')]
     status = models.SmallIntegerField(choices=STATUS, null=True)
+
 
 class Stationery(models.Model):
     name = models.CharField(max_length=60)
@@ -24,7 +25,7 @@ class Unit(models.Model):
     name = models.CharField(max_length=60)
 
 class Regist_detail(models.Model):
-    registration = models.ForeignKey('Registration', on_delete=models.PROTECT, null=True)
+    registration = models.ForeignKey('Registrations', on_delete=models.PROTECT, null=True)
     stationery = models.ForeignKey('Stationery', on_delete=models.PROTECT, null=True)
     total = models.IntegerField()
 

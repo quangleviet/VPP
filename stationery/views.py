@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+from .models import Registrations, Room, Registrations, Stationery, Unit, Regist_detail
+
 
 # Create your views here.
 def user_login(request, method="POST"):
@@ -31,19 +33,25 @@ def user_logout(request):
     return HttpResponseRedirect("/")
 
 @login_required
-def Registration(request):
-    return render(request, "Registration/Registration.html")
+def Registration(request, method="GET"):
+    units = Unit.objects.all
+    stationerys = Stationery.objects.all
+    return render(request, "Registration/Registration.html", {"units" : units, "stationerys" :stationerys})
 
 @login_required
-def Department(request):
-    return render(request, "Manager/Department.html")
-
-@login_required
-def Total(request):
-    return render(request, "Manager/Total.html")
+def Department(request, method="GET"):
+    registrations = Registrations.objects.all
+    print(Registrations.objects.get(id=1), "----------------------------")
+    return render(request, "Manager/Department.html", {"registrations": registrations})
 
 def Register(request):
     return render(request, "layouts/register.html")
 
 def ForgotPassword(request):
     return render(request, "layouts/forgot-password.html")
+
+@login_required
+def Total(request, method="GET"):
+    units = Unit.objects.all
+    stationerys = Stationery.objects.all
+    return render(request, "Manager/Total.html", {"units" : units, "stationerys" :stationerys})
