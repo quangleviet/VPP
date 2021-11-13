@@ -7,6 +7,27 @@ class Room(models.Model):
     name = models.CharField(max_length=60)
     code = models.CharField(max_length=10)
 
+class Registration(models.Model):
+    room = models.ForeignKey('Room', on_delete=models.PROTECT, null=True)
+
+    QUARTER = [(1, 'Quy 1'),(2, 'Quy 2'),(3, 'Quy 3'), (4, 'Quy 4')]
+    quarter = models.SmallIntegerField(choices=QUARTER, null=True)
+
+    STATUS = [(1, 'New'),(2, 'Approved'),(3, 'Rejected')]
+    status = models.SmallIntegerField(choices=STATUS, null=True)
+
+class Stationery(models.Model):
+    name = models.CharField(max_length=60)
+    unit = models.ForeignKey('Unit', on_delete=models.PROTECT, null=True)
+
+class Unit(models.Model):
+    name = models.CharField(max_length=60)
+
+class Regist_detail(models.Model):
+    registration = models.ForeignKey('Registration', on_delete=models.PROTECT, null=True)
+    stationery = models.ForeignKey('Stationery', on_delete=models.PROTECT, null=True)
+    total = models.IntegerField()
+
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """
@@ -49,7 +70,7 @@ class MyUser(AbstractBaseUser):
 
     objects = MyUserManager()
 
-    room_id = models.ForeignKey('Room', on_delete=models.PROTECT, null=True)
+    room = models.ForeignKey('Room', on_delete=models.PROTECT, null=True)
     
     ROLES = [(0, 'Admin'),(1, 'Manager'),(2, 'Staff')]
     role = models.SmallIntegerField(choices=ROLES, null=True)
