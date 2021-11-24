@@ -24,13 +24,17 @@
                     </tr>
                 </tfoot>
                 <tbody>
+                    {% for regis in registrations %}
                     <tr>
-                        <td>1</td>
-                        <td>Phong Cong Nghe</td>
-                        <td>Quy 1</td>
-                        <td>Dang Ky</td>
-                        <td></td>
+                        <td>{{ forloop.counter  }}</td>
+                        <td>{{ regis.room.name  }}</td>
+                        <td>{{ rigis.quarter  }}</td>
+                        <td>{{ '' }}</td>
+                        <td>{{ '' }}</td>
                     </tr>
+                    {% empty %}
+                    <tr>No book entry</tr>
+                    {% endfor %}
                  </tbody>
             </table>
         </div>
