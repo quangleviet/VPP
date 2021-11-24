@@ -10,4 +10,5 @@ urlpatterns = [
     path("Total/", views.Total, name="Total"),
     path("Register/", views.Register, name="Register"),
     path("ForgotPassword/", views.ForgotPassword, name="ForgotPassword"),
+    path("CreateRegister/", views.Create_register, name="CreateRegister"),
 ]
