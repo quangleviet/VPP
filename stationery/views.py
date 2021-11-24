@@ -41,8 +41,14 @@ def Registration(request, method="GET"):
 @login_required
 def Department(request, method="GET"):
     registrations = Registrations.objects.all
-    print(Registrations.objects.get(id=1), "----------------------------")
     return render(request, "Manager/Department.html", {"registrations": registrations})
+
+@login_required
+def Create_register(request, method="GET"):
+    rooms = Room.objects.all
+    registrations = Registrations.objects.all
+    stationerys = Stationery.objects.all
+    return render(request, "Registration/create_register.html", {"rooms": rooms, "registrations" : registrations, "stationerys": stationerys})
 
 def Register(request):
     return render(request, "layouts/register.html")
@@ -55,3 +61,6 @@ def Total(request, method="GET"):
     units = Unit.objects.all
     stationerys = Stationery.objects.all
     return render(request, "Manager/Total.html", {"units" : units, "stationerys" :stationerys})
+
+
+
