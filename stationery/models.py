@@ -27,7 +27,7 @@ class Unit(models.Model):
 class Regist_detail(models.Model):
     registration = models.ForeignKey('Registrations', on_delete=models.PROTECT, null=True)
     stationery = models.ForeignKey('Stationery', on_delete=models.PROTECT, null=True)
-    amount=models.IntegerField()
+    amount = models.IntegerField(default=0)
     total = models.IntegerField()
 
 class MyUserManager(BaseUserManager):
