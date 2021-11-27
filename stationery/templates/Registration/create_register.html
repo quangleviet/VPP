@@ -1,82 +1,112 @@
-{% extends "base.html" %}
+{% extends "dashboard/index.html" %}
 
-{% block content %}
+{% block content_dashboard %}
 
-    <div class="container">
-
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create a Registration!</h1>
-                            </div>
-                            <form class="stationery">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label for="formGroupExampleInput">Department</label>
-                                        <select class="custom-select">
-                                           {% for room in rooms %}
-                                           <option value="{{room.id}}">{{room.name}}</option>
-                                           {% endfor %}
-                                          </select>
-                                    </div>
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label for="formGroupExampleInput">Quarter</label>
-                                        <select class="custom-select">
-                                            {% for quarter in registrations %}
-                                            <option value="{{quarter.id}}">{{quarter.quarter}}</option>
-                                            {% endfor %}
-                                           </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput">Comment</label>
-                                    <input type="text" class="form-control form-control-user" id="exampleContent"
-                                        placeholder="Content">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <label for="formGroupExampleInput">Stationery</label>
-                                        <select class="custom-select">
-                                            {% for station in stationerys %}
-                                            <option value="{{station.id}}">{{station.name}}</option>
-                                            {% endfor %}
-                                           </select>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="inputZip">Amount</label>
-                                        <input type="text" class="form-control" id="inputZip">
-                                      </div>
-                                    <div class="col-sm-4">
-                                        <label for="formGroupExampleInput">Unit</label>
-                                        <select class="custom-select">
-                                            {% for unit in stationerys %}
-                                            <option value="{{unit.id}}">{{unit.unit.name}}</option>
-                                            {% endfor %}
-                                           </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <button type="submit" value="Submit">Submit</button>
-                                </div>
-                                <div class="col-sm-6">
-                                    <button type="reset" value="Reset">Reset</button>
-                                </div>
-                                </div>
-                                <div class="text-center">
-                                    <a class="col-sm-6" href="{% url 'Registration' %}">Cancel</a>
-                                </div>
-                        </div>
-                    </div>
+<form method="post" action="{% url 'CreateRegister' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-12">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Create a Registration!</h1>
                 </div>
-            </div>
+                <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="formGroupExampleInput">Department</label>
+                            <select class="custom-select">
+                               {% for room in rooms %}
+                               <option value="{{room.id}}">{{room.name}}</option>
+                               {% endfor %}
+                              </select>
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="formGroupExampleInput">Quarter</label>
+                            <select class="custom-select">
+                                {% for quarter in registrations %}
+                                <option value="{{quarter.id}}">{{quarter.quarter}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+                </div>
+                <div class="form-group">
+                        <label for="formGroupExampleInput">Comment</label>
+                        <input type="text" class="form-control form-control-user" id="exampleContent"
+                            placeholder="Content">
+                </div>
+                <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="formGroupExampleInput">Stationery</label>
+                            <select class="custom-select" name="stationery[]" required>
+                                {% for station in stationerys %}
+                                <option value="{{station.id}}">{{station.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+                          <div class="col-sm-2">
+                            <label for="inputZip">Amount</label>
+                            <input type="number" min="1" name="amount[]"
+                                class="form-control m-input" placeholder="Enter number"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="formGroupExampleInput">Unit</label>
+                            <select class="custom-select" name="unit[]" required>
+                                {% for unit in stationerys %}
+                                <option value="{{unit.id}}">{{unit.unit.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+                        <div class="col-sm-2"></div>
+                </div>
+            <div id="newRow"></div>
+                <button id="addRow" type="button" class="btn btn-primary">Add Row</button>
+                <button id="submit-" type="submit" class="btn btn-info">Submit</button>
         </div>
-
+    
     </div>
+</form>
 
     {% endblock %}
+
+     <!--   {% block extend_js %}
+<script type="text/javascript">
+    // add row
+    $("#addRow").click(function () {
+        var html = '';
+        html = `
+        <div class="form-group row">
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+                            <label for="formGroupExampleInput">Stationery</label>
+                            <select class="custom-select">
+                                {% for station in stationerys %}
+                                <option value="{{station.id}}">{{station.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="inputZip">Amount</label>
+                            <input type="number" min="1" name="amount"
+                                class="form-control m-input" placeholder="Enter number"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="formGroupExampleInput">Unit</label>
+                            <select class="custom-select">
+                                {% for unit in stationerys %}
+                                <option value="{{unit.id}}">{{unit.unit.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+
+        </div>
+
+        `
+
+        $('#newRow').append(html);
+    });
+
+    // remove row
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#inputFormRow').remove();
+    });
+</script>
+{% endblock %}
