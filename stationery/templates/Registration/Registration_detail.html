@@ -1,0 +1,55 @@
+{% extends "dashboard/index.html" %}
+
+    {% block content_dashboard %}
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Hang Muc</th>
+                        <th>DVT</th>
+                        <th>So Luong</th>
+                        <th>Thao Tac</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Hang Muc</th>
+                        <th>DVT</th>
+                        <th>So Luong</th>
+                        <th>thao tac</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        {% for regis_detail in regisdetails %}
+                        <tr>
+                            <td>{{ forloop.counter  }}</td>
+                            <td>{{ regis_detail.stationery.name  }}</td>
+                            <td>{{ regis_detail.stationery.unit.name }}</td>
+                            <td>{{ regis_detail.amount }}</td>
+                            <td>
+                                <a href="{% url 'Registration' %}">
+                                    <i class ="far fa-edit" title="Edit" style="margin-right: 10px"></i>
+                                </a>
+                                <a href="{% url 'Registration' %}">
+                                    <i class ="far fa-eye" title="Show" style="margin-right: 10px"></i>
+                                </a>
+                                <a href="{% url 'Registration' %}">
+                                    <i class ="far fa-trash-alt" title="Delete" style="margin-right: 10px"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>No book entry</tr>
+                        {% endfor %}
+                    </tr>
+                 </tbody>
+            </table>
+        </div>
+    </div>
+    
+    {% endblock %}
