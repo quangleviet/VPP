@@ -16,6 +16,8 @@ class Registrations(models.Model):
     STATUS = [(1, 'New'),(2, 'Approved'),(3, 'Rejected')]
     status = models.SmallIntegerField(choices=STATUS, null=True)
 
+    comment = models.TextField(blank=True)
+
 
 class Stationery(models.Model):
     name = models.CharField(max_length=60)
@@ -24,11 +26,11 @@ class Stationery(models.Model):
 class Unit(models.Model):
     name = models.CharField(max_length=60)
 
-class Regist_detail(models.Model):
+class RegistDetail(models.Model):
     registration = models.ForeignKey('Registrations', on_delete=models.PROTECT, null=True)
     stationery = models.ForeignKey('Stationery', on_delete=models.PROTECT, null=True)
     amount = models.IntegerField(default=0)
-    total = models.IntegerField()
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):

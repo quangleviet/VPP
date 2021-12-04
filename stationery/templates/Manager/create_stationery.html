@@ -1,0 +1,79 @@
+{% extends "dashboard/index.html" %}
+
+{% block content_dashboard %}
+
+<form method="post" action="{% url 'CreateStationery' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-12">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Create new Stationery!</h1>
+                </div>
+                <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="formGroupExampleInput">Stationery</label>
+                            <input type="text" name="name"
+                                class="form-control m-input" placeholder="Enter stationery"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="formGroupExampleInput">Unit</label>
+                            <input type="text" name="unit"
+                                class="form-control m-input" placeholder="Enter Unit"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-2"></div>
+                </div>
+            <div id="newRow1"></div>
+                <button id="addRow1" type="button" class="btn btn-primary">Add Row</button>
+                <button id="submit-" type="submit" class="btn btn-info">Submit</button>
+        </div>
+    
+    </div>
+</form>
+
+{% endblock %}
+
+ <!--   {% block extend_js %}
+<script type="text/javascript">
+    // add row
+    $("#addRow").click(function () {
+        var html = '';
+        html = `
+        <div class="form-group row">
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+                            <label for="formGroupExampleInput">Stationery</label>
+                            <select class="custom-select">
+                                {% for station in stationerys %}
+                                <option value="{{station.id}}">{{station.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="inputZip">Amount</label>
+                            <input type="number" min="1" name="amount"
+                                class="form-control m-input" placeholder="Enter number"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="formGroupExampleInput">Unit</label>
+                            <select class="custom-select">
+                                {% for unit in stationerys %}
+                                <option value="{{unit.id}}">{{unit.unit.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+
+        </div>
+
+        `
+
+        $('#newRow').append(html);
+    });
+
+    // remove row
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#inputFormRow').remove();
+    });
+</script>
+{% endblock %}
