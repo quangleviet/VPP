@@ -31,15 +31,16 @@
                         <td>{{ regis.get_quarter_display }}</td>
                         <td>{{ regis.comment }}</td>
                         <td>
-                            <a href="{% url 'Registration' %}">
+                            <a href="{% url 'edit_registration' pk=regis.id %}">
                                 <i class ="far fa-edit" title="Edit" style="margin-right: 10px"></i>
                             </a>
                             <a href="{% url 'RegistrationDetail' regist_id=regis.id %}">
                                 <i class ="far fa-eye" title="Show" style="margin-right: 10px"></i>
                             </a>
-                            <a href="{% url 'Registration' %}">
-                                <i class ="far fa-trash-alt" title="Delete" style="margin-right: 10px"></i>
-                            </a>
+                            <a href="{% url 'delete_registration' pk=regis.id %}" 
+                            onclick="return confirm('Are you sure you want to delete this Registrations?')">
+                            <i class="far fa-trash-alt" title="Delete"></i>
+                        </a>
                         </td>
                     </tr>
                     {% empty %}
