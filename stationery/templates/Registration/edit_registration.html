@@ -1,0 +1,130 @@
+{% extends "dashboard/index.html" %}
+
+{% block content_dashboard %}
+        <form method="post" action="{% url 'edit_registration' pk=regis.id %}">
+            {% csrf_token %}
+            <div class="row">
+             <div class="col-lg-12">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Edit Registration!</h1>
+                </div>
+                <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="formGroupExampleInput">Department</label>
+                            <select class="custom-select" name="room" required>
+                               {% for room in rooms %}
+                                <option value="{{room.id}}" {% if room.id == regis.room_id %} selected {% endif %}>
+                                    {{room.name}}
+                                </option>
+                               {% endfor %}
+                              </select>
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="formGroupExampleInput">Quarter</label>
+                            <select class="custom-select" name="quarter" required>
+                                {% for quarter in quarters %}
+                                <option value="{{quarter.0}}" {% if quarter.0 == regis.quarter %} selected {% endif %}>
+                                    {{quarter.1}}
+                                </option>
+                                {% endfor %}
+                               </select>
+                        </div>
+                </div>
+                <div class="form-group">
+                        <label for="formGroupExampleInput">Comment</label>
+                        <input type="text" class="form-control form-control-user" id="exampleContent " name="comment" required
+                            placeholder="Content" value="{{regis.comment}}">
+                </div>
+                {% for regis_detail in regis_details %}
+                    <input type="hidden" value="{{regis_detail.id}}" name="regis_detail_id[]">
+                    <div class="form-group row">
+                            <div class="col-sm-4">
+                                <label for="formGroupExampleInput">Stationery</label>
+                                <select class="custom-select" name="exist_stationery[]" required>
+                                    {% for station in stationerys %}
+                                        <option value="{{station.id}}" {% if station.id == regis_detail.stationery.id %} selected {% endif %}>
+                                            {{station.name}}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="inputZip">Amount</label>
+                                <input type="number" min="1" name="exist_amount[]"
+                                    class="form-control m-input" placeholder="Enter number"
+                                    value="{{regis_detail.amount}}" required>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="formGroupExampleInput">Unit</label>
+                                <select class="custom-select" name="exist_unit[]" required>
+                                    {% for unit in stationerys %}
+                                    <option value="{{unit.id}}" {% if unit.id == regis_detail.stationery.unit.id %} selected {% endif %}>
+                                        {{unit.unit.name}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-2"></div>
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+    <div id="newRow"></div>
+    <div class="input-group mb-3">
+    <div class="col-sm-6">   
+        <button id="addRow" type="button" class="btn btn-primary">Add Row</button>
+    </div> 
+    <div class="col-sm-3">   
+        <button id="submit-" type="submit" class="btn btn-info">Save</button>
+    </div> 
+    <div class="col-sm-3">
+        <a href="{% url 'Registration' %}" class="btn btn-secondary">Cancel</a>
+    </div>
+</div>
+</form>
+
+    {% endblock %}
+
+     <!--   {% block extend_js %}
+<script type="text/javascript">
+    // add row
+    $("#addRow").click(function () {
+        var html = '';
+        html = `
+        <div class="form-group row">
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+                            <label for="formGroupExampleInput">Stationery</label>
+                            <select class="custom-select">
+                                {% for station in stationerys %}
+                                <option value="{{station.id}}">{{station.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="inputZip">Amount</label>
+                            <input type="number" min="1" name="amount"
+                                class="form-control m-input" placeholder="Enter number"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="formGroupExampleInput">Unit</label>
+                            <select class="custom-select">
+                                {% for unit in stationerys %}
+                                <option value="{{unit.id}}">{{unit.unit.name}}</option>
+                                {% endfor %}
+                               </select>
+                        </div>
+
+        </div>
+
+        `
+
+        $('#newRow').append(html);
+    });
+
+    // remove row
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#inputFormRow').remove();
+    });
+</script>
+{% endblock %}

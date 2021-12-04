@@ -106,30 +106,26 @@
                 <div id="inputFormRow">
                     <div class="input-group mb-3">
                         <div class="col-sm-4">
-                            <label for="formGroupExampleInput">Stationery</label>
-                            <select class="custom-select">
+                            <select class="custom-select" name="stationery[]">
                                 {% for station in stationerys %}
                                 <option value="{{station.id}}">{{station.name}}</option>
                                 {% endfor %}
                                </select>
                         </div>
-                          <div class="col-sm-2">
-                            <label for="inputZip">Amount</label>
-                            <input type="number" min="1" name="amount"
+                        <div class="col-sm-2">
+                            <input type="number" min="1" name="amount[]"
                                 class="form-control m-input" placeholder="Enter number"
                                 autocomplete="off" required>
                         </div>
                         <div class="col-sm-4">
-                            <label for="formGroupExampleInput">Unit</label>
-                            <select class="custom-select">
+                            <select class="custom-select" name="unit[]">
                                 {% for unit in stationerys %}
                                 <option value="{{unit.id}}">{{unit.unit.name}}</option>
                                 {% endfor %}
                                </select>
                         </div>
                         <div class="col-sm-2">
-                            <label for="formGroupExampleInput">Remove</label>
-                              <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
+                            <div><button id="removeRow" type="button" class="btn btn-danger">Remove</button></div>
                         </div>
                     </div>
                 </div>
@@ -153,19 +149,17 @@
     <div id="inputFormRow1">
         <div class="form-group row">
                         <div class="col-sm-4">
-                                                       <input type="text" name="stationery"
-                                class="form-control m-input" placeholder="Enter stationery"
-                                autocomplete="off" required>
+                            <input type="text" name="stationery"
+                            class="form-control m-input" placeholder="Enter stationery"
+                            autocomplete="off" required>
                         </div>
                         <div class="col-sm-4">
-                          
                             <input type="text" name="stationery"
-                                class="form-control m-input" placeholder="Enter Unit"
-                                autocomplete="off" required>
+                            class="form-control m-input" placeholder="Enter Unit"
+                            autocomplete="off" required>
                         </div>
                         <div class="col-sm-2">
-                         
-                              <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
+                            <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
                         </div>
                 </div>
             </div>

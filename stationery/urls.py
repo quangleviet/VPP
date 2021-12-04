@@ -13,4 +13,6 @@ urlpatterns = [
     path("CreateRegister/", views.Create_register, name="CreateRegister"),
     path("CreateStationery/", views.Create_stationery, name="CreateStationery"),
     path("RegistrationDetail/<int:regist_id>", views.Registration_detail, name="RegistrationDetail"),
+    path("Registration/delete-regis/<int:pk>", views.delete_registration, name="delete_registration"),
+    path("Registration/edit-regis/<int:pk>", views.edit_registration, name="edit_registration"),
 ]

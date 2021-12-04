@@ -1,8 +1,10 @@
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.template import Context, Template
+from django.forms.models import model_to_dict
+from django.urls import reverse
 
 from .models import Registrations, Room, Registrations, Stationery, Unit, RegistDetail
 
@@ -53,6 +55,7 @@ def Create_register(request, method="GET"):
 
     if request.method == "POST":
         data = request.POST
+        print(data)
         list_stationery = data.getlist("stationery[]", [])
         list_amount = data.getlist("amount[]", [])
 
@@ -88,11 +91,105 @@ def __new_stationery_amount_unit(stationery_id, amount, regist):
     regis_detail.stationery_id = stationery_id
     regis_detail.amount = amount
     regis_detail.registration = regist
-    print("===========")
-    print(regis_detail.__dict__)
-
     return regis_detail
 
+# def edit_registration(request, pk):
+# regis = get_object_or_404(Registration, pk=pk)
+
+#     if request.method == "POST":
+#         form = CreateRegisForm(request.POST or None)
+#         if form.is_valid():
+#             # book = Book()
+
+#             regis.name = form.cleaned_data["name"]
+#             regis.description = form.cleaned_data["description"]
+#             regis.author = form.cleaned_data["author"]
+#             regis.published_date = form.cleaned_data["published_date"]
+
+
+#             regis.save()  # book.refresh_from_db() // book.update(name='', description='', ...)
+
+#             messages.success(request, "Create book successful")
+#             return redirect("list_books")
+#     else:
+#         form = CreateRegisForm(model_to_dict(book))
+
+#     context = {"form": form, "book": book}
+# return render(request, "books/edit_book_f.html", context=context)
+
+def delete_registration(request, pk):
+    regis = get_object_or_404(Registrations, pk=pk)
+    regisdetails = RegistDetail.objects.filter(registration_id=pk)
+    regisdetails.delete()
+    regis.delete()
+
+    return redirect("Registration")
+
+def edit_registration(request, pk):
+    regis = get_object_or_404(Registrations, pk=pk)
+    regis_details = regis.registdetail_set.all()
+    rooms = Room.objects.all
+    stationerys = Stationery.objects.all
+    quarters = Registrations.QUARTER
+
+    if request.method == "POST":
+        data = request.POST
+        print(data)
+
+        list_stationery = data.getlist("stationery[]", [])
+        list_amount = data.getlist("amount[]", [])
+
+        list_regis_detail_id = data.getlist("regis_detail_id[]", [])
+        list_exist_stationery = data.getlist("exist_stationery[]", [])
+        list_exist_amount = data.getlist("exist_amount[]", [])
+
+
+        regis.room_id = int(data.get("room", ""))
+        regis.quarter = data.get("quarter", "")
+        regis.comment = data.get("comment", "")
+        regis.save()
+
+        if len(list_exist_stationery) and len(list_exist_amount) and len(list_regis_detail_id):
+            list_stationeries = []
+
+            for ind in range(0, len(list_exist_stationery)):
+                list_stationeries.append(
+                    __edit_stationery(
+                        regis_detail_id=int(list_regis_detail_id[ind]),
+                        stationery_id=int(list_exist_stationery[ind]),
+                        amount=int(list_exist_amount[ind])
+                    )
+                )
+            
+            RegistDetail.objects.bulk_update(list_stationeries, fields=["stationery_id", "amount"])
+
+        if len(list_stationery) and len(list_amount):
+            list_stationery_amount_unit = []
+
+            for ind in range(0, len(list_stationery)):
+                list_stationery_amount_unit.append(
+                    __new_stationery_amount_unit(
+                        stationery_id=int(list_stationery[ind]),
+                        amount=int(list_amount[ind]),
+                        regist=regis
+                    )
+                )
+            
+            RegistDetail.objects.bulk_create(list_stationery_amount_unit)
+
+        
+        return redirect("Registration")
+        # context = {"regis": model_to_dict(Registrations), "rooms": rooms, "stationerys": stationerys, "quarters": quarters}
+    return render(request, "Registration/edit_registration.html",
+        {"regis": model_to_dict(regis), "rooms": rooms,
+        "stationerys": stationerys, "quarters": quarters, "regis_details": regis_details})
+
+def __edit_stationery(regis_detail_id, stationery_id, amount):
+    regis_detail = RegistDetail.objects.get(id=regis_detail_id)
+    regis_detail.stationery_id = stationery_id
+    regis_detail.amount = amount
+    # regis_detail.save()
+    return regis_detail
 
 def Register(request):
     return render(request, "layouts/register.html")
