@@ -38,7 +38,7 @@
                 {% for regis_detail in regis_details %}
                     <input type="hidden" value="{{regis_detail.id}}" name="regis_detail_id[]">
                     <div class="form-group row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 <label for="formGroupExampleInput">Stationery</label>
                                 <select class="custom-select" name="exist_stationery[]" required>
                                     {% for station in stationerys %}
@@ -54,7 +54,7 @@
                                     class="form-control m-input" placeholder="Enter number"
                                     value="{{regis_detail.amount}}" required>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 <label for="formGroupExampleInput">Unit</label>
                                 <select class="custom-select" name="exist_unit[]" required>
                                     {% for unit in stationerys %}
@@ -64,6 +64,27 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <!-- <div class="col-sm-2">
+                                <label for="published-date" class="col-sm-2 col-form-label">Published</label>
+                                <input type="date" name='published_date' class="form-control"
+                                    id="published-date" placeholder="Choose date"
+                                    value="{{regis.published_date|date:'Y-m-d'}}">
+                                 <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+                                    <input placeholder="Select date" type="text" id="example" class="form-control">
+                                    <i class="fas fa-calendar input-prefix"></i>
+                                  </div> -->
+                              </div>
+                            <!-- <div class="col-sm-2">
+                                    <label for="status" class="col-sm-2 col-form-label">Status</label>
+                                    <select id="status" class="form-control" name="status" required>
+                                        {% for status in statuses %}
+                                            <option value={{status.0}}
+                                                {% if status.0 == regis.status %} selected="selected"{% endif %}>
+                                                {{status.1}}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                            </div> -->
                             <div class="col-sm-2"></div>
                     </div>
                 {% endfor %}

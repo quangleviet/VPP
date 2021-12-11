@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+import datetime
+
 class Room(models.Model):
     name = models.CharField(max_length=60)
     code = models.CharField(max_length=10)
@@ -13,10 +15,14 @@ class Registrations(models.Model):
     QUARTER = [(1, 'Quy 1'),(2, 'Quy 2'),(3, 'Quy 3'), (4, 'Quy 4')]
     quarter = models.SmallIntegerField(choices=QUARTER, null=True)
 
-    STATUS = [(1, 'New'),(2, 'Approved'),(3, 'Rejected')]
-    status = models.SmallIntegerField(choices=STATUS, null=True)
+    STATUS = [(0, 'Pending'),(2, 'Approved'),(3, 'Rejected')]
+    status = models.SmallIntegerField(choices=STATUS, default=0)
 
     comment = models.TextField(blank=True)
+
+    created_at = models.DateField(default=datetime.date.today())
+
+    published_date = models.DateField(null=True)
 
 
 class Stationery(models.Model):
@@ -30,8 +36,6 @@ class RegistDetail(models.Model):
     registration = models.ForeignKey('Registrations', on_delete=models.PROTECT, null=True)
     stationery = models.ForeignKey('Stationery', on_delete=models.PROTECT, null=True)
     amount = models.IntegerField(default=0)
-
-
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """

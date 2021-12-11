@@ -4,37 +4,36 @@
     
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Ten Phong Ban</th>
-                        <th>Quy</th>
-                        <th>Noi Dung</th>
-                        <th>Thao tac</th>
+                        <th>Ten Hang Muc</th>
+                        <th>DVT</th>
+                        <th>So Luong</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>STT</th>
-                        <th>Ten Phong Ban</th>
-                        <th>Quy</th>
-                        <th>Noi Dung</th>
-                        <th>Thao Tac</th>
+                        <th>Ten Hang Muc</th>
+                        <th>DVT</th>
+                        <th>So Luong</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    {% for regis in registrations %}
                     <tr>
-                        <td>{{ forloop.counter  }}</td>
-                        <td>{{ regis.room.name  }}</td>
-                        <td>{{ rigis.quarter  }}</td>
-                        <td>{{ '' }}</td>
-                        <td>{{ '' }}</td>
+                        {% for regis_detail in regisdetails %}
+                        <tr>
+                            <td>{{ forloop.counter  }}</td>
+                            <td>{{ regis_detail.stationery.name  }}</td>
+                            <td>{{ regis_detail.stationery.unit.name }}</td>
+                            <td>{{ regis_detail.amount }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>No book entry</tr>
+                        {% endfor %}
                     </tr>
-                    {% empty %}
-                    <tr>No book entry</tr>
-                    {% endfor %}
                  </tbody>
             </table>
         </div>
