@@ -3,15 +3,50 @@
     {% block content_dashboard %}
     
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <!-- <div class="table-responsive"> -->
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Phong Ban</th>
+                        <th>Quy</th>
+                        <th>Noi Dung</th>
+                        <th>Status</th>
+                        <th>Created at</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Phong Ban</th>
+                        <th>Quy</th>
+                        <th>Noi Dung</th>
+                        <th>Status</th>
+                        <th>Created at</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>{{ forloop.counter  }}</td>
+                        <td>{{ registrations.room.name  }}</td>
+                        <td>{{ registrations.get_quarter_display }}</td>
+                        <td>{{ registrations.comment }}</td>
+                        <td>
+                            <span class="label label-info">
+                                {{ registrations.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ registrations.created_at|date:"SHORT_DATE_FORMAT" }}</td>
+                    </tr>
+                 </tbody>
+            </table>
+            <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>STT</th>
                         <th>Ten Hang Muc</th>
                         <th>DVT</th>
                         <th>So Luong</th>
-                        <th>Thao Tac</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -20,7 +55,6 @@
                         <th>Ten Hang Muc</th>
                         <th>DVT</th>
                         <th>So Luong</th>
-                        <th>thao tac</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -31,17 +65,61 @@
                             <td>{{ regis_detail.stationery.name  }}</td>
                             <td>{{ regis_detail.stationery.unit.name }}</td>
                             <td>{{ regis_detail.amount }}</td>
-                            <td>
-                                <a href="{% url 'Registration' %}">
-                                    <i class ="far fa-edit" title="Edit" style="margin-right: 10px"></i>
-                                </a>
-                                <a href="{% url 'Registration' %}">
-                                    <i class ="far fa-eye" title="Show" style="margin-right: 10px"></i>
-                                </a>
-                                <a href="{% url 'Registration' %}">
-                                    <i class ="far fa-trash-alt" title="Delete" style="margin-right: 10px"></i>
-                                </a>
-                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>No book entry</tr>
+                        {% endfor %}
+                    </tr>
+                 </tbody>
+            </table>
+            {% if registrations.status == 0 %}
+            <div class="form-group row">
+                <div class="col-sm-2">   
+                    <form method="post" action="{% url 'approve_regist' regist_id=registrations.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="2" name="status_approve">
+                        <button type="submit">Approve</button>
+                    </form>
+                </div> 
+                <div class="col-sm-2"> 
+                    <form method="post" action="{% url 'approve_regist' regist_id=registrations.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="3" name="status_reject">
+                        <button type="submit">Reject</button>
+                    </form>
+                </div> 
+            </div> 
+            {% endif %}
+        <!-- </div> -->
+    </div>
+
+    <!-- <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Hang Muc</th>
+                        <th>DVT</th>
+                        <th>So Luong</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten Hang Muc</th>
+                        <th>DVT</th>
+                        <th>So Luong</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        {% for regis_detail in regisdetails %}
+                        <tr>
+                            <td>{{ forloop.counter  }}</td>
+                            <td>{{ regis_detail.stationery.name  }}</td>
+                            <td>{{ regis_detail.stationery.unit.name }}</td>
+                            <td>{{ regis_detail.amount }}</td>
                         </tr>
                         {% empty %}
                         <tr>No book entry</tr>
@@ -50,6 +128,6 @@
                  </tbody>
             </table>
         </div>
-    </div>
+    </div> -->
     
     {% endblock %}
